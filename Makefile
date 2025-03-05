@@ -6,13 +6,13 @@
 #    By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/23 20:17:41 by maya              #+#    #+#              #
-#    Updated: 2025/02/26 10:14:19 by mpelage          ###   ########.fr        #
+#    Updated: 2025/03/05 11:48:30 by mpelage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
 
 # Fichiers sources et objets
@@ -23,7 +23,8 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
-
+	@echo "✅ Projet \"$(NAME)\" compilé avec succès !"
+	
 %.o: %.c philo.h
 	$(CC) $(CFLAGS) -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 11:57:51 by maya              #+#    #+#             */
-/*   Updated: 2025/02/28 07:30:40 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/03/03 18:48:54 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,26 @@ int	main(int argc, char **argv)
 {
 	t_rules			rules;
 	t_philo			philos[200];
-	pthread_mutex_t	forks_array[200];
+	pthread_mutex_t	*forks_array;
 
 	if (argc != 5 && argc != 6)
 		return (error("mauvais nbr d arguments"));
 	if (parsing_args(&rules, argv) != 0)
 		return (1);
 	rules.philos = philos;
+	forks_array = malloc(sizeof(pthread_mutex_t) * rules.nb_philos);
+	if (!forks_array)
+		return (error("erreur allocation mémoire"));
 	rules.forks_array = forks_array;
 	init_mutex_rules(&rules);
 	init_forks(&rules);
 	init_philos(&rules);
 	if (thread_create(&rules) != 0)
+	{
+		free(forks_array);
 		return (error("erreur création de threads"));
+	}
 	cleanup(&rules);
+	free(forks_array);
 	return (0);
 }

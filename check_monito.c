@@ -6,7 +6,7 @@
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 13:43:31 by mpelage           #+#    #+#             */
-/*   Updated: 2025/02/28 07:33:28 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/03/03 18:49:24 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	philo_dead(t_philo *philo, int time_to_die)
 {
 	pthread_mutex_lock(&philo->rules->meal_lock);
-	if (get_current_time() - philo->last_meal_time >= time_to_die)
+	if (get_current_time() - philo->last_meal_time > time_to_die)
 	{
 		pthread_mutex_unlock(&philo->rules->meal_lock);
 		return (1);
@@ -31,6 +31,8 @@ int	who_is_dead(t_rules *rules)
 	i = 0;
 	while (i < rules->nb_philos)
 	{
+		if (rules->philos[i].is_done == 1)
+			return (0);
 		if (philo_dead(&rules->philos[i], rules->time_to_die))
 		{
 			display_thread("died", rules, rules->philos[i].philo_id);
@@ -44,6 +46,18 @@ int	who_is_dead(t_rules *rules)
 	return (0);
 }
 
+int	has_philo_finished(t_philo *philo, int min_meals)
+{
+	int	finished;
+
+	pthread_mutex_lock(&philo->rules->meal_lock);
+	finished = (int)philo->meals_eaten >= min_meals;
+	if (finished)
+		philo->is_done = 1;
+	pthread_mutex_unlock(&philo->rules->meal_lock);
+	return (finished);
+}
+
 int	all_eaten(t_rules *rules)
 {
 	int	i;
@@ -55,10 +69,8 @@ int	all_eaten(t_rules *rules)
 		return (0);
 	while (i < rules->nb_philos)
 	{
-		pthread_mutex_lock(&rules->meal_lock);
-		if ((int)rules->philos[i].meals_eaten >= rules->min_meals)
+		if (has_philo_finished(&rules->philos[i], rules->min_meals))
 			finished++;
-		pthread_mutex_unlock(&rules->meal_lock);
 		i++;
 	}
 	if (finished == rules->nb_philos)
@@ -84,6 +96,7 @@ void	*monitor(void *arg)
 	{
 		if (who_is_dead(rules) == 1 || all_eaten(rules) == 1)
 			break ;
+		ft_usleep(8);
 	}
 	return (arg);
 }

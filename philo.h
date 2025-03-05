@@ -6,7 +6,7 @@
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 11:57:30 by maya              #+#    #+#             */
-/*   Updated: 2025/02/28 07:32:36 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/03/03 18:48:24 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,18 @@ void				*routine(void *arg);
 void				display_thread(char *str, t_rules *rules, int philo_id);
 void				sleep_and_think(t_philo *philo);
 void				eat(t_philo *philo);
+void				get_forks(t_philo *philo, pthread_mutex_t **fork_low,
+						pthread_mutex_t **fork_high);
+void				perform_eating(t_philo *philo, pthread_mutex_t *fork_low,
+						pthread_mutex_t *fork_high);
 
 void				*monitor(void *arg);
 int					check_loop(t_rules *rules);
 int					philo_dead(t_philo *philo, int time_to_die);
 int					who_is_dead(t_rules *rules);
 int					all_eaten(t_rules *rules);
+int					has_philo_finished(t_philo *philo, int min_meals);
+void				perform_eating(t_philo *philo, pthread_mutex_t *fl,
+						pthread_mutex_t *fh);
 
 #endif

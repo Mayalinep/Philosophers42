@@ -6,7 +6,7 @@
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:28:13 by maya              #+#    #+#             */
-/*   Updated: 2025/02/28 07:30:24 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/03/03 12:40:08 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ void	ft_usleep(long int time)
 
 	start = get_current_time();
 	while (get_current_time() - start < time)
-		usleep(100);
+		usleep(500);
 }

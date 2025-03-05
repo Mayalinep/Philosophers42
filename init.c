@@ -6,7 +6,7 @@
 /*   By: mpelage <mpelage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 12:30:05 by maya              #+#    #+#             */
-/*   Updated: 2025/02/28 07:34:22 by mpelage          ###   ########.fr       */
+/*   Updated: 2025/03/03 15:23:37 by mpelage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	init_philos(t_rules *rules)
 	i = 0;
 	while (i < rules->nb_philos)
 	{
-		rules->philos[i].philo_id = i;
+		rules->philos[i].philo_id = i + 1;
 		rules->philos[i].last_meal_time = rules->simulation_start;
 		rules->philos[i].meals_eaten = 0;
 		rules->philos[i].is_done = 0;
